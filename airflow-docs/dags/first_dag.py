@@ -21,4 +21,23 @@ with DAG(
         bash_command="echo 'hello world, this is the first task!'"
     )
 
-    t1
+    t2 = BashOperator(
+        task_id='second_task',
+        bash_command="echo 'this is task 2 which will be executed after task 1'"
+    )
+
+    t3 = BashOperator(
+        task_id='third task',
+        bash_command="echo 'this is task 3, executed after task 1 and simultaneously with task 2'"
+    )
+
+    # Option 1
+    t1.set_downstream(t2)
+    t1.set_downstream(t3)
+
+    # Option 2
+    t1 >> t2
+    t1 >> t3
+
+    # Option 3
+    t1 >> [t2, t3]
