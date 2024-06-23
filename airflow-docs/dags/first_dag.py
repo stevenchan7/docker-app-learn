@@ -27,7 +27,7 @@ with DAG(
     )
 
     t3 = BashOperator(
-        task_id='third task',
+        task_id='third_task',
         bash_command="echo 'this is task 3, executed after task 1 and simultaneously with task 2'"
     )
 
