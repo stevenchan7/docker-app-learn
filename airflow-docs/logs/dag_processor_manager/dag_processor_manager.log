@@ -4886,3 +4886,20 @@ File Path                                       PID    Runtime      # DAGs    # 
 /opt/airflow/dags/dag_with_taskflow.py                                   1           0  0.23s           2024-06-23T02:57:30
 ================================================================================
 [2024-06-23T02:57:57.252+0000] {manager.py:452} INFO - Exiting gracefully upon receiving signal 15
+[2024-06-24T12:08:25.691+0000] {manager.py:470} INFO - Processing files using up to 2 processes at a time 
+[2024-06-24T12:08:25.692+0000] {manager.py:471} INFO - Process each file at most once every 30 seconds
+[2024-06-24T12:08:25.693+0000] {manager.py:472} INFO - Checking for new files in /opt/airflow/dags every 300 seconds
+[2024-06-24T12:08:25.694+0000] {manager.py:737} INFO - Searching for files in /opt/airflow/dags
+[2024-06-24T12:08:25.756+0000] {manager.py:740} INFO - There are 3 files in /opt/airflow/dags
+[2024-06-24T12:08:30.372+0000] {manager.py:878} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                       PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/dag_with_taskflow.py                                   1           0  0.52s           2024-06-24T12:08:26
+/opt/airflow/dags/task_with_python_operator.py                           1           0  0.28s           2024-06-24T12:08:26
+/opt/airflow/dags/first_dag.py                                           1           0  0.26s           2024-06-24T12:08:26
+================================================================================
+[2024-06-24T12:08:56.933+0000] {manager.py:452} INFO - Exiting gracefully upon receiving signal 15
+[2024-06-24T12:08:56.933+0000] {manager.py:452} INFO - Exiting gracefully upon receiving signal 15

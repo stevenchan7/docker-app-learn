@@ -5,12 +5,12 @@ import uuid
 
 from confluent_kafka import SerializingProducer
 
-LONDON_COOR = {'latitude': 0, 'longitude': 0}
-BIRMINGHAM_COOR = {'latitude': 0, 'longitude': 0}
+LONDON_COOR = {'latitude': 51.5074, 'longitude': -0.1278}
+BIRMINGHAM_COOR = {'latitude': 52.4862, 'longitude': -1.8904}
 
 # Value for simulate vehicle movement
-latitude_increment = BIRMINGHAM_COOR['latitude'] - LONDON_COOR['latitude'] / 100
-longitude_increment = BIRMINGHAM_COOR['longitude'] - LONDON_COOR['longitude'] / 100
+latitude_increment = (BIRMINGHAM_COOR['latitude'] - LONDON_COOR['latitude']) / 100
+longitude_increment = (BIRMINGHAM_COOR['longitude'] - LONDON_COOR['longitude']) / 100
 
 start_coor = LONDON_COOR.copy()
 start_time = datetime.now()
@@ -32,12 +32,13 @@ def get_next_time():
 def simulate_vehicle_movement():
     global start_coor
 
+    # Move toward Birmingham
     start_coor['latitude'] += latitude_increment
     start_coor['longitude'] += longitude_increment
 
     # Add some randomness
-    start_coor['latitude'] = random.uniform(-0.0005, 0.0005)
-    start_coor['longitude'] = random.uniform(-0.0005, 0.0005)
+    start_coor['latitude'] += random.uniform(-0.0005, 0.0005)
+    start_coor['longitude'] += random.uniform(-0.0005, 0.0005)
 
     return start_coor
 
@@ -45,7 +46,7 @@ def generate_vehicle_data(device_id):
     location = simulate_vehicle_movement()
 
     return {
-        'id': uuid.uuid4,
+        'id': uuid.uuid4(),
         'deviceId': device_id,
         'timestamp': get_next_time().isoformat(),
         'location': (location['latitude'], location['longitude']),
@@ -53,12 +54,25 @@ def generate_vehicle_data(device_id):
         'direction': 'North East',
         'brand': 'BMW',
         'model': 'sedan',
+        'year': 2024,
+        'fuelType': 'Hybrid',
         'vechile_number': 'DK1121AX'
     }
 
-def simulate_journey(producer, device_id):
+def generate_gps_data(device_id, timestamp, vehicle_type='private'):
+    return {
+        'id': uuid.uuid4(),
+        'device_id': device_id,
+        'timestamp': timestamp,
+        'speed': random.uniform(0, 40),
+        'direction': 'North East',
+        'vehicleType': vehicle_type
+    }
+
+def simulate_journey(producer: SerializingProducer, device_id):
     while True:
         vehicle_data = generate_vehicle_data(device_id)
+        gps_data = generate_gps_data(device_id, vehicle_data['timestamp'])
         print(vehicle_data)
         break
 
